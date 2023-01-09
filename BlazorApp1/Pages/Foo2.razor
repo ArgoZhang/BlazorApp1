@@ -1,0 +1,19 @@
+﻿@page "/Foo2"
+
+@*<CascadingValue Value="Foos" IsFixed="true">
+    <Foo2Component></Foo2Component>
+</CascadingValue>*@
+
+<RenderTemplate>
+    @{
+        Foos.Add("2");
+    }
+</RenderTemplate>
+
+<RenderTemplate>
+
+@foreach (var i in Foos)
+{
+    <div>Comp @i</div>
+}
+</RenderTemplate>
