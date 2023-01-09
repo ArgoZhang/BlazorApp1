@@ -2,28 +2,32 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Website: https://www.blazor.zone or https://argozhang.github.io/
 
-using BlazorApp1.Components;
+using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BlazorApp1.Pages;
+namespace BlazorApp1.Components;
 
-public partial class Foo
+public partial class FooComponent
 {
-    private List<string> Items { get; } = new();
+    [Parameter]
+    [NotNull]
+    public List<string>? Items { get; set; }
 
-    private string BeginTime { get; } = DateTime.Now.ToString();
+    [Parameter]
+    public Func<Task>? OnAfterRenderCallbackAsync { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        Items.Add($"Foo: OnInitialized {DateTime.Now}");
+        Items.Add($"FooComponent: OnInitialized {DateTime.Now}");
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Items.Add($"Foo: OnInitializedAsync {DateTime.Now}");
+
+        Items.Add($"FooComponent: OnInitializedAsync {DateTime.Now}");
         await Task.Delay(1000);
     }
 
@@ -31,14 +35,14 @@ public partial class Foo
     {
         base.OnParametersSet();
 
-        Items.Add($"Foo: OnParametersSet {DateTime.Now}");
+        Items.Add($"FooComponent: OnParametersSet {DateTime.Now}");
     }
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
 
-        Items.Add($"Foo: OnParametersSetAsync {DateTime.Now}");
+        Items.Add($"FooComponent: OnParametersSetAsync {DateTime.Now}");
         await Task.Delay(1000);
     }
 
@@ -46,7 +50,7 @@ public partial class Foo
     {
         base.OnAfterRender(firstRender);
 
-        Items.Add($"Foo: OnAfterRender {DateTime.Now}");
+        Items.Add($"FooComponent: OnAfterRender {DateTime.Now}");
     }
 
     private int Index { get; set; }
@@ -55,13 +59,16 @@ public partial class Foo
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        Items.Add($"Foo: OnAfterRenderAsync {DateTime.Now}");
+        Items.Add($"FooComponent: OnAfterRenderAsync {DateTime.Now}");
         await Task.Delay(1000);
 
         if (firstRender || Index == 1)
         {
             Index++;
-            StateHasChanged();
+            if (OnAfterRenderCallbackAsync != null)
+            {
+                await OnAfterRenderCallbackAsync();
+            }
         }
     }
 }
