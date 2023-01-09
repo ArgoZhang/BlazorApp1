@@ -1,0 +1,12 @@
+﻿@page "/Foo1"
+
+<div>Begin: @BeginTime</div>
+
+<Foo1Component></Foo1Component>
+
+@foreach (var item in Items)
+{
+    <div>@item</div>
+}
+
+<div>Finish: @DateTime.Now</div>
