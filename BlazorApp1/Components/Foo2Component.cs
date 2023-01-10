@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorApp1.Components;
 
-public partial class Foo2Component
+public partial class Foo2Component : ComponentBase
 {
     [CascadingParameter]
     [NotNull]
