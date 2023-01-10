@@ -23,6 +23,7 @@ public partial class Foo
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
         Items.Add($"Foo: OnInitializedAsync {DateTime.Now}");
         await Task.Delay(1000);
     }
@@ -49,8 +50,6 @@ public partial class Foo
         Items.Add($"Foo: OnAfterRender {DateTime.Now}");
     }
 
-    private int Index { get; set; }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -58,9 +57,8 @@ public partial class Foo
         Items.Add($"Foo: OnAfterRenderAsync {DateTime.Now}");
         await Task.Delay(1000);
 
-        if (firstRender || Index == 1)
+        if (firstRender )
         {
-            Index++;
             StateHasChanged();
         }
     }
