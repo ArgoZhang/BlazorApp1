@@ -1,0 +1,7 @@
+﻿<button @attributes="AdditionalAttributes" class="@ClassString" @onclick="OnClick">
+    @if(!string.IsNullOrEmpty(Icon))
+    {
+        <i class="@Icon"></i>
+    }
+    @Text
+</button>
