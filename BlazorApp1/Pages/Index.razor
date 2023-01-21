@@ -9,11 +9,31 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<Dummy Color="btn-danger" Icon="oi oi-home" Text="测试" style="margin-top: 10px;" class="test" />
+@*<Dummy Color="btn-danger" Icon="oi oi-home" Text="测试" style="margin-top: 10px;" class="test" />*@
+
+@*<button @onclick="OnClick">Test</button>*@
+
+<DummyInput @bind-Value="@Value" />
+
+<div>@Value</div>
 
 @code {
     protected override void OnInitialized()
     {
         NavigationManager.GetUriWithQueryParameter("id", "123");
+    }
+
+    private string? Value { get; set; } = "123";
+
+    private string? Text { get; set; }
+
+    private void OnClick()
+    {
+        Value = "abcd";
+    }
+
+    private void OnValueChange(string? v)
+    {
+        Value = v;
     }
 }
