@@ -1,0 +1,21 @@
+﻿@page "/foo4"
+
+<h3>RenderFragment 模板教学</h3>
+
+<Foo4Component>
+    <HeaderTemplate>
+        <div class="bg-danger">@context.Summary</div>
+    </HeaderTemplate>
+    <ChildContent>
+        <div>我是页面给的参数</div>
+    </ChildContent>
+    <FooterTemplate>Footer</FooterTemplate>
+</Foo4Component>
+
+<br/>
+
+<Foo5Component />
+
+@code {
+
+}

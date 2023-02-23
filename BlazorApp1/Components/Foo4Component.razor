@@ -1,0 +1,10 @@
+﻿<h3>Foo4Component</h3>
+
+@if (HeaderTemplate != null)
+{
+    @HeaderTemplate(new Data.WeatherForecast() { Summary = "Test_Test" })
+}
+
+@ChildContent
+
+@FooterTemplate
