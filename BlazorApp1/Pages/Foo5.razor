@@ -1,0 +1,68 @@
+﻿@page "/foo5"
+@implements IDisposable
+
+<h3>Key 教学</h3>
+
+@foreach (var person in people)
+{
+    <Details @key="person" Data="@person.Data" />
+}
+
+@code {
+    public List<Person> people = new()
+    {
+        { new Person { Data = "Person 1" } },
+        { new Person { Data = "Person 2" } },
+        { new Person { Data = "Person 3" } }
+    };
+
+    private CancellationTokenSource? CancellationTokenSource { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Task.Run(async () =>
+            {
+                CancellationTokenSource ??= new();
+                while (!CancellationTokenSource.IsCancellationRequested)
+                {
+                    try
+                    {
+                        await Task.Delay(2000, CancellationTokenSource.Token);
+
+                        people.Insert(0, new Person { Data = $"INSERTED {DateTime.Now.ToString("hh:mm:ss tt")}" });
+                        await InvokeAsync(StateHasChanged);
+                    }
+                    catch (TaskCanceledException)
+                    {
+
+                    }
+                }
+            });
+        }
+    }
+
+    public class Person
+    {
+        public string? Data { get; set; }
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (CancellationTokenSource != null)
+            {
+                CancellationTokenSource.Cancel();
+                CancellationTokenSource.Dispose();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+}
