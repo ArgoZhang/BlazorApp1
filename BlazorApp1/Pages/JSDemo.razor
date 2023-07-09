@@ -1,0 +1,20 @@
+﻿@page "/JSDemo"
+@inject IJSRuntime JSRuntime
+
+<div id="@Id"></div>
+
+<button @onclick="Click">Test</button>
+
+<div>@Value</div>
+
+@code {
+    private string Id { get; set; } = "bb_9527";
+
+    private double Value { get; set; } = 0.0;
+
+    private async Task Click()
+    {
+        var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Pages/JSDemo.razor.js");
+        Value = await module.InvokeAsync<double>("test", Id);
+    }
+}
